@@ -27,7 +27,7 @@ class BinaryNode:
         # If no right child, walk up the tree until we go up a parent's left branch
         else:
             node = self
-            while 1:
+            while True:
                 if node.is_root():
                     return None
                 elif not node.is_left_child():
@@ -43,7 +43,7 @@ class BinaryNode:
         # If no left child, walk up the tree until we go up a parent's right branch
         else: 
             node = self
-            while 1:
+            while True:
                 if node.is_root():
                     return None
                 elif not node.is_right_child():
@@ -325,37 +325,13 @@ class AVLNode(BinaryNode):
 
 class BSTNode(BinaryNode):
     def insert_new(self, weight):
-        return
+        raise NotImplementedError
 
     def insert_new_before(self, weight):
-        return NotImplementedError
+        raise NotImplementedError
 
     def insert_new_after(self, weight):
-        return NotImplementedError
+        raise NotImplementedError
 
     def find_node_by_weight(self, weight):
         raise NotImplementedError
-
-
-if __name__ == "__main__":
-    ## BUILD
-    root = BinaryNode.from_weight('A')
-    root.add_new_left('B')
-    root.add_new_right('C')
-    root.left.add_new_left('D')
-    root.left.add_new_right('E')
-    root.left.left.add_new_left('F')
-
-    ## INSERTION
-    root.left.right.insert_new_before('G')
-    root.insert_new_after('H')
-
-    ## TRAVERSAL ORDER
-    first = root.subtree_first()
-    print(first.weight)
-    current = first.next()
-    while current is not None:
-        print(current.weight)
-        current = current.next()
-
-    print('done')

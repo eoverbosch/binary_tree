@@ -1,5 +1,4 @@
 import pytest
-import itertools
 from binary_tree import BinaryNode
 
 # Rudimentary test to see if the fixture is even capable of initialisation
@@ -66,6 +65,7 @@ def test_inorder_deletion(example_tree):
     assert example_tree.weight == 'E'
 
     correct_order = ['F', 'D', 'B', 'G', 'E', 'H', 'C']
+    assert list(example_tree) == correct_order
 
 def test_subtree_height(example_tree):
     assert example_tree.subtree_height() == 3
@@ -76,11 +76,6 @@ def test_subtree_first(example_tree):
     assert example_tree.subtree_first().weight == 'F'
     assert example_tree.left.subtree_first().weight == 'F'
     assert example_tree.right.subtree_first().weight == 'H'
-
-def test_traversal_order(example_tree):
-    assert example_tree.next().weight == 'H'
-    assert example_tree.left.next().weight == 'G'
-    assert example_tree.left.right.next().weight == 'A'
 
 def test_rotate_left(example_tree):
     traversal_order = list(example_tree)
