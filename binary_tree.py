@@ -5,9 +5,51 @@ class BinaryNode:
         self.left = left
         self.right = right
 
+    def __iter__(self):
+        current = self.subtree_first()
+        last = self.subtree_last()
+
+        while current is not last:
+            yield current.weight
+            current = current.next()
+
+        yield current.weight
+
     @classmethod
     def from_weight(cls, weight, parent = None):
         return cls(weight, parent) 
+        
+    def next(self):
+        # If right child exists, next is the start of the subtree rooted by the right child
+        if self.right is not None:
+             return self.right.subtree_first()
+        
+        # If no right child, walk up the tree until we go up a parent's left branch
+        else:
+            node = self
+            while 1:
+                if node.is_root():
+                    return None
+                elif not node.is_left_child():
+                    node = node.parent
+                else:
+                    return node.parent
+
+    def prev(self):
+        # If left child exists, prev is the last of the subtree rooted by the left child
+        if self.left is not None:
+            return self.left.subtree_last()
+
+        # If no left child, walk up the tree until we go up a parent's right branch
+        else: 
+            node = self
+            while 1:
+                if node.is_root():
+                    return None
+                elif not node.is_right_child():
+                    node = node.parent
+                else:
+                    return node.parent
 
     def add_new_left(self, weight):
         # Orphans previous entry before overwrite
@@ -128,38 +170,6 @@ class BinaryNode:
         right_size  = self.right.subtree_size() if self.right is not None else 0
         
         return left_size + 1 + right_size
-        
-    def next(self):
-        # If right child exists, next is the start of the subtree rooted by the right child
-        if self.right is not None:
-             return self.right.subtree_first()
-        
-        # If no right child, walk up the tree until we go up a parent's left branch
-        else:
-            node = self
-            while 1:
-                if node.is_root():
-                    return None
-                elif not node.is_left_child():
-                    node = node.parent
-                else:
-                    return node.parent
-
-    def prev(self):
-        # If left child exists, prev is the last of the subtree rooted by the left child
-        if self.left is not None:
-            return self.left.subtree_last()
-
-        # If no left child, walk up the tree until we go up a parent's right branch
-        else: 
-            node = self
-            while 1:
-                if node.is_root():
-                    return None
-                elif not node.is_right_child():
-                    node = node.parent
-                else:
-                    return node.parent
 
     def find_node_by_weight(self, weight):
         node = self.subtree_first()

@@ -1,4 +1,5 @@
 import pytest
+import itertools
 from binary_tree import BinaryNode
 
 # Rudimentary test to see if the fixture is even capable of initialisation
@@ -40,6 +41,10 @@ def example_tree():
 
     return root
 
+def test_traversal_order(pre_insert_example_tree):
+    correct_order = ['F', 'D', 'B', 'E', 'A', 'C']
+    assert list(pre_insert_example_tree) == correct_order
+
 def test_inorder_insertion(pre_insert_example_tree):
     root = pre_insert_example_tree
     node_E = root.left.right
@@ -51,7 +56,8 @@ def test_inorder_insertion(pre_insert_example_tree):
     assert node_E.left.weight == 'G'
     assert node_C.left.weight == 'H'
 
-    ## TODO: test traversal order
+    correct_order = ['F', 'D', 'B', 'G', 'E', 'A', 'H', 'C']
+    assert list(root) == correct_order
 
 def test_inorder_deletion(example_tree):
     example_tree.delete()
@@ -59,7 +65,7 @@ def test_inorder_deletion(example_tree):
     assert example_tree.is_root()
     assert example_tree.weight == 'E'
 
-    ## TODO: test traversal order
+    correct_order = ['F', 'D', 'B', 'G', 'E', 'H', 'C']
 
 def test_subtree_height(example_tree):
     assert example_tree.subtree_height() == 3
@@ -77,6 +83,7 @@ def test_traversal_order(example_tree):
     assert example_tree.left.right.next().weight == 'A'
 
 def test_rotate_left(example_tree):
+    traversal_order = list(example_tree)
     root = example_tree.subtree_rotate_left()
 
     assert root.is_root()
@@ -86,9 +93,11 @@ def test_rotate_left(example_tree):
     assert root.left.left.weight == 'B'
     assert root.right is None
 
-    ## TODO: test traversal order preservation
+    new_traversal_order = list(root)
+    assert new_traversal_order == traversal_order 
 
 def test_rotate_right(example_tree):
+    traversal_order = list(example_tree)
     root = example_tree.subtree_rotate_right()
 
     assert root.is_root()
@@ -96,4 +105,5 @@ def test_rotate_right(example_tree):
     assert root.right.weight == 'A'
     assert root.right.left.weight == 'E'
 
-    ## TODO: test traversal order preservation
+    new_traversal_order = list(root)
+    assert new_traversal_order == traversal_order 
