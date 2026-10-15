@@ -198,7 +198,6 @@ class BinaryNode:
 
         return node
 
-
     def subtree_detach(self):
         if self.is_left_child():
             self.parent.left = None
@@ -341,26 +340,12 @@ if __name__ == "__main__":
     root.left.right.insert_new_before('G')
     root.insert_new_after('H')
 
-    #root = root.subtree_rotate_right()
-
     ## TRAVERSAL ORDER
     first = root.subtree_first()
-
     print(first.weight)
     current = first.next()
     while current is not None:
         print(current.weight)
         current = current.next()
-
-    ## DELETE
-    if 0:
-        print("delete")
-        root.delete()
-
-        print(first.weight)
-        current = first.next()
-        while current is not None:
-            print(current.weight)
-            current = current.next()
 
     print('done')
