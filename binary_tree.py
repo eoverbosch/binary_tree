@@ -151,7 +151,10 @@ class BinaryNode:
         return max(h_left, h_right) + 1
 
     def subtree_skew(self):
-        return self.right.subtree_height() - self.left.subtree_height()
+        h_left  = -1 if self.left  is None else self.left.subtree_height()
+        h_right = -1 if self.right is None else self.right.subtree_height()
+
+        return h_right - h_left
 
     def subtree_first(self):
         if self.left is None:
@@ -171,6 +174,7 @@ class BinaryNode:
         
         return left_size + 1 + right_size
 
+    # Default implementation is just a linear search
     def find_node_by_weight(self, weight):
         node = self.subtree_first()
 
